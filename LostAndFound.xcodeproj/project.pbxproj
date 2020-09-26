@@ -13,6 +13,7 @@
 		FAF0A3EC251E0ED800B71F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF0A3EA251E0ED800B71F86 /* Main.storyboard */; };
 		FAF0A3EE251E0EDA00B71F86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAF0A3ED251E0EDA00B71F86 /* Assets.xcassets */; };
 		FAF0A3F1251E0EDA00B71F86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF0A3EF251E0EDA00B71F86 /* LaunchScreen.storyboard */; };
+		FAF0A3F9251E1FC800B71F86 /* APIDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF0A3F8251E1FC800B71F86 /* APIDefine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		FAF0A3ED251E0EDA00B71F86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAF0A3F0251E0EDA00B71F86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAF0A3F2251E0EDA00B71F86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAF0A3F8251E1FC800B71F86 /* APIDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIDefine.swift; path = "../../../../../Downloads/rxLostArticle-master/RxLostArticle/RxLostArticle/Define/APIDefine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				FAF0A3E4251E0ED800B71F86 /* AppDelegate.swift */,
 				FAF0A3E6251E0ED800B71F86 /* SceneDelegate.swift */,
 				FAF0A3E8251E0ED800B71F86 /* ViewController.swift */,
+				FAF0A3F8251E1FC800B71F86 /* APIDefine.swift */,
 				FAF0A3EA251E0ED800B71F86 /* Main.storyboard */,
 				FAF0A3ED251E0EDA00B71F86 /* Assets.xcassets */,
 				FAF0A3EF251E0EDA00B71F86 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				FAF0A3E9251E0ED800B71F86 /* ViewController.swift in Sources */,
 				FAF0A3E5251E0ED800B71F86 /* AppDelegate.swift in Sources */,
 				FAF0A3E7251E0ED800B71F86 /* SceneDelegate.swift in Sources */,
+				FAF0A3F9251E1FC800B71F86 /* APIDefine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
