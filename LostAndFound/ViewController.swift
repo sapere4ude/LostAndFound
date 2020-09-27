@@ -8,6 +8,8 @@
 
 import UIKit
 
+// API 데이터 받아오는 곳
+// btnAction 에서 값을 전달하는게 아니라 btnDone에서 값 넘겨주는걸로 바꿔보기
 let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
     
     func getData(from url: String) {
