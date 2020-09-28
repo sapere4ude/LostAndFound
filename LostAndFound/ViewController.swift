@@ -173,6 +173,8 @@ class ViewController: UIViewController {
     @objc func onPickDone() {
         articleTextField.text = selectArticle
         articleTextField.resignFirstResponder()
+        LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!)
+        print(#function, LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!))
         selectArticle = ""
     }
     
