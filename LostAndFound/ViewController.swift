@@ -7,46 +7,47 @@
 //
 
 import UIKit
+import Alamofire
 
-let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
-    
-    func getData(from url: String) {
-        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
-            guard let data = data, error == nil else {
-                print("something went wrong")
-                return
-            }
-            
-            // have data
-            var result: Response?
-            do {
-                result = try JSONDecoder().decode(Response.self, from : data)
-            }
-            catch {
-                print("failed to convert \(error.localizedDescription)")
-            }
-            
-            guard let json = result else {
-                return
-            }
-            print(json.row.ID)
-            print(json.row.TAKE_PLACE)
-        })
-            
-        task.resume()
-    }
-
-struct Response: Codable {
-    let row: searchResult
-}
-
-struct searchResult: Codable {
-    let ID: Double
-    let TAKE_PLACE: String
-    let GET_NAME: String
-    let GET_DATE: String
-    let GET_POSITION: String
-}
+//let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
+//
+//    func getData(from url: String) {
+//        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
+//            guard let data = data, error == nil else {
+//                print("something went wrong")
+//                return
+//            }
+//
+//            // have data
+//            var result: Response?
+//            do {
+//                result = try JSONDecoder().decode(Response.self, from : data)
+//            }
+//            catch {
+//                print("failed to convert \(error.localizedDescription)")
+//            }
+//
+//            guard let json = result else {
+//                return
+//            }
+//            print(json.row.ID)
+//            print(json.row.TAKE_PLACE)
+//        })
+//
+//        task.resume()
+//    }
+//
+//struct Response: Codable {
+//    let row: searchResult
+//}
+//
+//struct searchResult: Codable {
+//    let ID: Double
+//    let TAKE_PLACE: String
+//    let GET_NAME: String
+//    let GET_DATE: String
+//    let GET_POSITION: String
+//}
 
 
 /// JSON
@@ -102,9 +103,34 @@ class ViewController: UIViewController {
     
     @IBAction func btnAction(_ sender: Any) {
         print(#function, resultArticle, resultPlace)
-        
-        print(APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
+        print("버튼을 눌렀을때->",APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
+        sendRequest()
     }
+    
+    func sendRequest() {
+        // post 방식
+//        let PARM : Parameters = [
+//             "TAKE_PLACE" : "회사내 분실센터"
+//            ]
+        let url = APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil)
+        
+        let alamo = AF.request(url,method: .get).validate(statusCode: 200..<300)
+        //결과값으로 문자열을 받을 때 사용
+        alamo.responseString() { response in
+            switch response.result
+            {
+            //통신성공
+            case .success(let value):
+                print("value: \(value)")
+                
+            //통신실패
+            case .failure(let error):
+                print("error: \(String(describing: error.errorDescription))")
+            }
+        }
+    }
+    
+    
     
     let articlePickerView = UIPickerView()
     let placePickerView = UIPickerView()
