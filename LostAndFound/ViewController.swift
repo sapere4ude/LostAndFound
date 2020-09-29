@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 //let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
 //
@@ -114,18 +115,25 @@ class ViewController: UIViewController {
 //            ]
         let url = APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil)
         
-        let alamo = AF.request(url,method: .get).validate(statusCode: 200..<300)
+        let alamo = AF.request(url, method: .get).validate(statusCode: 200..<300)
         //결과값으로 문자열을 받을 때 사용
         alamo.responseString() { response in
             switch response.result
             {
             //통신성공
-            case .success(let value):
-                print("value: \(value)")
+//            case .success(let value):
+//                print("value: \(value)")
+//
+//            //통신실패
+//            case .failure(let error):
+//                print("error: \(String(describing: error.errorDescription))")
                 
-            //통신실패
+            case .success(let value):
+                let json = JSON(value)
+                let resultJson = json["SearchLostArticleService"]["row"].array
+                print("JSON: \(resultJson)")
             case .failure(let error):
-                print("error: \(String(describing: error.errorDescription))")
+                print(error)
             }
         }
     }
