@@ -8,8 +8,6 @@
 
 import UIKit
 
-// API 데이터 받아오는 곳
-// btnAction 에서 값을 전달하는게 아니라 btnDone에서 값 넘겨주는걸로 바꿔보기
 let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
     
     func getData(from url: String) {
@@ -99,15 +97,13 @@ class ViewController: UIViewController {
     var selectArticle = ""
     var selectPlace = ""
     
+    var resultArticle = ""
+    var resultPlace = ""
+    
     @IBAction func btnAction(_ sender: Any) {
-//        let tmp = APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: .briefcase, place: .subway1_4, searchTxt: "")
-//        print(tmp)
-//        APIDefine.GET_LOST_ARTICLE_ORIGIN_API
+        print(#function, resultArticle, resultPlace)
         
-        print(#function)
-        print(selectArticle)
-        print(selectPlace)
-        
+        print(APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
     }
     
     let articlePickerView = UIPickerView()
@@ -135,9 +131,9 @@ class ViewController: UIViewController {
         pickerToolbar.backgroundColor = .lightGray
         pickerToolbar.sizeToFit()
         
-        let btnDone = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(onPickDone))
+        let btnDone = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(onPickDoneArticle))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let btnCancel = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(onPickCancel))
+        let btnCancel = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(onPickCancelArticle))
         pickerToolbar.setItems([btnDone,space,btnCancel], animated: true)
         pickerToolbar.isUserInteractionEnabled = true
         
@@ -158,9 +154,9 @@ class ViewController: UIViewController {
         pickerToolbar.backgroundColor = .lightGray
         pickerToolbar.sizeToFit()
         
-        let btnDone = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(onPickDone2))
+        let btnDone = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(onPickDonePlace))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let btnCancel = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(onPickCancel2))
+        let btnCancel = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(onPickCancelPlace))
         pickerToolbar.setItems([btnDone,space,btnCancel], animated: true)
         pickerToolbar.isUserInteractionEnabled = true
         
@@ -170,26 +166,30 @@ class ViewController: UIViewController {
         articleTextField.sizeToFit()
     }
     
-    @objc func onPickDone() {
+    @objc func onPickDoneArticle() {
         articleTextField.text = selectArticle
         articleTextField.resignFirstResponder()
-        LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!)
+        resultArticle = LostArticleType.getEnumFromKoreanType(korean: (articleTextField.text)!).rawValue
+        print(resultArticle)
         print(#function, LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!))
         selectArticle = ""
     }
     
-    @objc func onPickCancel() {
+    @objc func onPickCancelArticle() {
         articleTextField.resignFirstResponder()
         selectArticle = ""
     }
     
-    @objc func onPickDone2() {
+    @objc func onPickDonePlace() {
         placeTextField.text = selectPlace
         placeTextField.resignFirstResponder()
+        resultPlace = LostPlaceType.getEnumFromKoreanType(korean: (placeTextField.text)!).rawValue
+        print(resultPlace)
+        print(#function, LostPlaceType.getEnumFromKoreanType(korean: (placeTextField.text)!))
         selectPlace = ""
     }
     
-    @objc func onPickCancel2() {
+    @objc func onPickCancelPlace() {
         placeTextField.resignFirstResponder()
         selectPlace = ""
     }
@@ -221,15 +221,15 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == articlePickerView {
             selectArticle = articlePickerData[row]
-            let ee = LostArticleType.getEnumFromKoreanType(korean: articlePickerData[row])
-            print(ee)
-            print(selectArticle)
+//            let ee = LostArticleType.getEnumFromKoreanType(korean: articlePickerData[row])
+//            print(ee)
+//            print(selectArticle)
         }
         else {
             selectPlace = placePickerData[row]
-            let kk = LostPlaceType.getEnumFromKoreanType(korean: placePickerData[row])
-            print(kk)
-            print(selectPlace)
+//            let kk = LostPlaceType.getEnumFromKoreanType(korean: placePickerData[row])
+//            print(kk)
+//            print(selectPlace)
         }
     }
 }
