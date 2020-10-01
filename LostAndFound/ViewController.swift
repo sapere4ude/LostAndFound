@@ -10,47 +10,6 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-//let url = String(format: "%@/%@/json/SearchLostArticleService",APIDefine.SEOUL_API_SERVER_ADDR,APIDefine.SEOUL_API_KEY)
-//
-//    func getData(from url: String) {
-//        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
-//            guard let data = data, error == nil else {
-//                print("something went wrong")
-//                return
-//            }
-//
-//            // have data
-//            var result: Response?
-//            do {
-//                result = try JSONDecoder().decode(Response.self, from : data)
-//            }
-//            catch {
-//                print("failed to convert \(error.localizedDescription)")
-//            }
-//
-//            guard let json = result else {
-//                return
-//            }
-//            print(json.row.ID)
-//            print(json.row.TAKE_PLACE)
-//        })
-//
-//        task.resume()
-//    }
-//
-//struct Response: Codable {
-//    let row: searchResult
-//}
-//
-//struct searchResult: Codable {
-//    let ID: Double
-//    let TAKE_PLACE: String
-//    let GET_NAME: String
-//    let GET_DATE: String
-//    let GET_POSITION: String
-//}
-
-
 /// JSON
 /*
 {"SearchLostArticleService":
@@ -88,7 +47,6 @@ import SwiftyJSON
  }
  */
 
-
 class ViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
@@ -96,49 +54,97 @@ class ViewController: UIViewController {
     @IBOutlet weak var placeTextField: UITextField!
     @IBOutlet weak var resultTextField: UITextField!
     
-    var selectArticle = ""
-    var selectPlace = ""
+    // string 값을 enum으로 교체하기
+//    var selectArticle = ""
+    var selectArticle: LostArticleType = .wallet
+    var selectPlace: LostPlaceType = .bus
     
     var resultArticle = ""
     var resultPlace = ""
     
+    var lostItems: Array<LostArticleResult> = Array()
+//    
     @IBAction func btnAction(_ sender: Any) {
+        //indicator show
         print(#function, resultArticle, resultPlace)
         print("버튼을 눌렀을때->",APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
-        sendRequest()
+        
+        let _ = self.sendRequest(completeHandler: { responseJson in
+            print("response:\(responseJson)")
+            var items:Array<LostArticleResult> = Array()
+            for i in 0..<responseJson["SearchLostArticleService"]["row"].count {
+                var item:LostArticleResult = LostArticleResult()
+                item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
+                item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
+                item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
+                items.append(item)
+            }
+            self.lostItems = items // 지역변수로 값을 넘겨줘서 다른곳에서 사용할 수 있게 해줌
+            
+                //모델링 처리 해줘야함
+                //indicator hide mainTread
+                //present
+
+            }, failureHandler: { err in
+                print("error:\(err)")
+                //indicator hide
+                //얼럿처리
+            })
+        
+        //        let vc = ResultViewController()
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = mainStoryboard.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController {
+//            self.navigationController?.pushViewController(vc, animated: true)
+//            self.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .fullScreen
+            
+//            self.present(vc, animated: true, completion: nil)
+        }
+//        vc.title = "확인 결과"
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
-    func sendRequest() {
-        // post 방식
-//        let PARM : Parameters = [
-//             "TAKE_PLACE" : "회사내 분실센터"
-//            ]
+    func sendRequest(completeHandler:@escaping (JSON) -> (),failureHandler:@escaping (String) -> ()) {
+        
         let url = APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil)
         
+        // 정보를 불러오기만 하는 것이므로 get 방식 사용
         let alamo = AF.request(url, method: .get).validate(statusCode: 200..<300)
         //결과값으로 문자열을 받을 때 사용
         alamo.responseString() { response in
             switch response.result
             {
-            //통신성공
-//            case .success(let value):
-//                print("value: \(value)")
-//
-//            //통신실패
-//            case .failure(let error):
-//                print("error: \(String(describing: error.errorDescription))")
                 
-            case .success(let value):
-                let json = JSON(value)
-                let resultJson = json["SearchLostArticleService"]["row"].array
-                print("JSON: \(resultJson)")
+            // 통신 성공
+            case .success(let value):   // 주의할 점 : String 타입으로 들어오는걸 Data 타입으로 바꿔줘야한다.
+                let json = JSON.init(value.data(using: .utf8) as Any)
+//                let resultJson = json["SearchLostArticleService"]["row"][0]["TAKE_PLACE"].stringValue
+//                print("JSON: \(resultJson)")
+                completeHandler(json)
+                // 질문해할 것 -> 개별적인 이름으로 순서대로 저장하고 있어야하는건지 or 딕셔너리 형태로 값을 갖고있어야하는건지
+                
+                
+//                for i in 0..<json["SearchLostArticleService"]["row"].count {
+//                    var item:LostArticleResult = LostArticleResult()
+//                    item.id = json["SearchLostArticleService"]["row"][i]["ID"].intValue
+//                    LostArticleResult().id = json["SearchLostArticleService"]["row"][i]["ID"].intValue
+//                    LostArticleResult().getName = json["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
+                    
+//                }
+//                    self.getTakePlace.append(json["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue)
+//                    self.getName.append(json["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue)
+//                    //self.getData.append(json["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue)
+//                    self.getPosition.append(json["SearchLostArticleService"]["row"][i]["GET_POSITION"].stringValue)
+//                }
+            
+            // 통신 실패
             case .failure(let error):
+                failureHandler(error.localizedDescription)
                 print(error)
             }
         }
     }
-    
-    
     
     let articlePickerView = UIPickerView()
     let placePickerView = UIPickerView()
@@ -151,7 +157,6 @@ class ViewController: UIViewController {
         
         showArticlePickerView()
         showPlacePickerView()
-        
     }
     
     func showArticlePickerView() {
@@ -201,31 +206,31 @@ class ViewController: UIViewController {
     }
     
     @objc func onPickDoneArticle() {
-        articleTextField.text = selectArticle
+        articleTextField.text = self.selectArticle.rawValue
         articleTextField.resignFirstResponder()
         resultArticle = LostArticleType.getEnumFromKoreanType(korean: (articleTextField.text)!).rawValue
         print(resultArticle)
         print(#function, LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!))
-        selectArticle = ""
+//        selectArticle = ""
     }
     
     @objc func onPickCancelArticle() {
         articleTextField.resignFirstResponder()
-        selectArticle = ""
+//        selectArticle = ""
     }
     
     @objc func onPickDonePlace() {
-        placeTextField.text = selectPlace
+        placeTextField.text = self.selectPlace.rawValue
         placeTextField.resignFirstResponder()
         resultPlace = LostPlaceType.getEnumFromKoreanType(korean: (placeTextField.text)!).rawValue
         print(resultPlace)
         print(#function, LostPlaceType.getEnumFromKoreanType(korean: (placeTextField.text)!))
-        selectPlace = ""
+        //selectPlace = ""
     }
     
     @objc func onPickCancelPlace() {
         placeTextField.resignFirstResponder()
-        selectPlace = ""
+        //selectPlace = ""
     }
 }
 
@@ -252,19 +257,13 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         }
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == articlePickerView {
-            selectArticle = articlePickerData[row]
-//            let ee = LostArticleType.getEnumFromKoreanType(korean: articlePickerData[row])
-//            print(ee)
-//            print(selectArticle)
-        }
-        else {
-            selectPlace = placePickerData[row]
-//            let kk = LostPlaceType.getEnumFromKoreanType(korean: placePickerData[row])
-//            print(kk)
-//            print(selectPlace)
-        }
-    }
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if pickerView == articlePickerView {
+//            return selectArticle = articlePickerData[row]
+//        }
+//        else {
+//            selectPlace = placePickerData[row]
+//        }
+//    }
 }
 
