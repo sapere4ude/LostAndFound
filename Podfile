@@ -6,7 +6,7 @@ target 'LostAndFound' do
   use_frameworks!
 
   # Pods for LostAndFound
-  pod 'Alamofire', '~> 5.1'
+  pod 'Alamofire', '~> 5.2'
   pod 'SwiftyJSON', '~> 4.0'
 
 end
