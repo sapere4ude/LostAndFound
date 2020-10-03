@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import NVActivityIndicatorView
 
 /// JSON
 /*
@@ -49,10 +50,10 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var articleTextField: UITextField!
     @IBOutlet weak var placeTextField: UITextField!
-    @IBOutlet weak var resultTextField: UITextField!
+    //@IBOutlet weak var resultTextField: UITextField!
+    @IBOutlet weak var resultView: UITableView!
     
     // string 값을 enum으로 교체하기
 //    var selectArticle = ""
@@ -66,6 +67,14 @@ class ViewController: UIViewController {
 //    
     @IBAction func btnAction(_ sender: Any) {
         //indicator show
+        self.indicator.isHidden = true
+        indicator.startAnimating()
+        DispatchQueue.main.async {
+            for i in 0..<2 {
+                usleep(1 * 1000 * 1000)
+                print("\(i+1)")
+            }
+        }
         print(#function, resultArticle, resultPlace)
         print("버튼을 눌렀을때->",APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
         
@@ -81,26 +90,31 @@ class ViewController: UIViewController {
                 items.append(item)
             }
             self.lostItems = items // 지역변수로 값을 넘겨줘서 다른곳에서 사용할 수 있게 해줌
-            
                 //모델링 처리 해줘야함
                 //indicator hide mainTread
-                //present
-
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+                self.indicator.isHidden = true
+            }
+            self.resultView.isHidden = false
+            //present
+            
             }, failureHandler: { err in
                 print("error:\(err)")
                 //indicator hide
+                self.indicator.isHidden = true
                 //얼럿처리
             })
         
-        //        let vc = ResultViewController()
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = mainStoryboard.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController {
+        //        let vc = resultViewController()
+        //let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        //if let vc = mainStoryboard.instantiateViewController(withIdentifier: "resultViewController") as? resultViewController {
 //            self.navigationController?.pushViewController(vc, animated: true)
 //            self.modalPresentationStyle = .fullScreen
-            vc.modalPresentationStyle = .fullScreen
+           // vc.modalPresentationStyle = .fullScreen
             
 //            self.present(vc, animated: true, completion: nil)
-        }
+//        }
 //        vc.title = "확인 결과"
 //        navigationController?.pushViewController(vc, animated: true)
     }
@@ -137,11 +151,22 @@ class ViewController: UIViewController {
     let articlePickerData = LostArticleType.allEnumKoreanArray()
     let placePickerData = LostPlaceType.allEnumKoreanArray()
     
+    let indicator = NVActivityIndicatorView(frame: CGRect(x: 162, y: 100, width: 50, height: 50),
+                                            type: .ballBeat,
+                                            color: .black,
+                                            padding: 0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         showArticlePickerView()
         showPlacePickerView()
+        self.view.addSubview(indicator)
+        resultView.isHidden = true
+        
+        resultView.delegate = self
+        resultView.dataSource = self
+        resultView.register(UINib(nibName: "ResultTableViewCell", bundle: nil), forCellReuseIdentifier: "ResultTableViewCell")
     }
     
     func showArticlePickerView() {
@@ -249,8 +274,20 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         else {
             print("현재 결과값 : ", LostPlaceType.allEnumKoreanArray()[row])
             print(type(of: LostPlaceType(rawValue: placePickerData[row])))
-            return selectPlace = LostPlaceType(rawValue: placePickerData[row]) ?? LostPlaceType.subway1_4
+//            return selectPlace = LostPlaceType(rawValue: placePickerData[row]) ?? LostPlaceType.subway1_4
+            return selectPlace = LostPlaceType.getEnumFromKoreanType(korean: self.placePickerData[row])
         }
     }
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: ResultTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ResultTableViewCell", for: indexPath) as! ResultTableViewCell
+        
+        return cell
+    }
+}
