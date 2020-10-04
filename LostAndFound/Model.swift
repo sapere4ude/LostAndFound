@@ -13,5 +13,5 @@ struct LostArticleResult {
     var getTakePlace: String = ""
     var getData: String = ""
     var getName: String = ""
-    var getPosition: String = ""
+    var getLocation: String = ""
 }

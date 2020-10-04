@@ -15,7 +15,7 @@ class ResultTableViewCell: UITableViewCell {
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var getName: UILabel!
     @IBOutlet weak var getPlace: UILabel!
-    @IBOutlet weak var getLoaction: UILabel!
+    @IBOutlet weak var getData: UILabel!
     
     
     
@@ -24,7 +24,15 @@ class ResultTableViewCell: UITableViewCell {
         // Initialization code
         self.getName.sizeToFit()
         self.getPlace.sizeToFit()
-        self.getLoaction.sizeToFit()
+        self.getData.sizeToFit()
+
+        let result = ViewController()
+        
+        for i in 0..<result.lostItems.count {
+            self.getName.text = result.lostItems[i].getName
+            self.getPlace.text = result.lostItems[i].getTakePlace
+            
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

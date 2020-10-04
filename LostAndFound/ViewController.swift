@@ -55,8 +55,8 @@ class ViewController: UIViewController {
     //@IBOutlet weak var resultTextField: UITextField!
     @IBOutlet weak var resultView: UITableView!
     
+    
     // string 값을 enum으로 교체하기
-//    var selectArticle = ""
     var selectArticle: LostArticleType = .wallet
     var selectPlace: LostPlaceType = .bus
     
@@ -74,37 +74,47 @@ class ViewController: UIViewController {
                 usleep(1 * 1000 * 1000)
                 print("\(i+1)")
             }
+            let _ = self.sendRequest(completeHandler: { responseJson in
+                print("response:\(responseJson)")
+                var items:Array<LostArticleResult> = Array()
+                for i in 0..<responseJson["SearchLostArticleService"]["row"].count {
+                    var item:LostArticleResult = LostArticleResult()
+                    item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
+                    item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
+                    item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                    item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
+                    items.append(item)
+                }
+                self.lostItems = items // 지역변수로 값을 넘겨줘서 다른곳에서 사용할 수 있게 해줌
+                print(self.lostItems)
+                print(type(of: self.lostItems))
+                
+//                for i in 0..<self.lostItems.count {
+//                    let result = ResultTableViewCell()
+//                    result.getName?.text = self.lostItems[i].getName
+//                    result.getPlace?.text = self.lostItems[i].getTakePlace
+//                    result.getData?.text = self.lostItems[i].getData
+//                }
+                
+                    //모델링 처리 해줘야함
+                    //indicator hide mainTread
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    self.indicator.isHidden = true
+                }
+                self.resultView.isHidden = false
+                //present
+                
+                }, failureHandler: { err in
+                    print("error:\(err)")
+                    //indicator hide
+                    self.indicator.isHidden = true
+                    //얼럿처리
+                })
         }
         print(#function, resultArticle, resultPlace)
         print("버튼을 눌렀을때->",APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil))
         
-        let _ = self.sendRequest(completeHandler: { responseJson in
-            print("response:\(responseJson)")
-            var items:Array<LostArticleResult> = Array()
-            for i in 0..<responseJson["SearchLostArticleService"]["row"].count {
-                var item:LostArticleResult = LostArticleResult()
-                item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
-                item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
-                item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
-                item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
-                items.append(item)
-            }
-            self.lostItems = items // 지역변수로 값을 넘겨줘서 다른곳에서 사용할 수 있게 해줌
-                //모델링 처리 해줘야함
-                //indicator hide mainTread
-            DispatchQueue.main.async {
-                self.indicator.stopAnimating()
-                self.indicator.isHidden = true
-            }
-            self.resultView.isHidden = false
-            //present
-            
-            }, failureHandler: { err in
-                print("error:\(err)")
-                //indicator hide
-                self.indicator.isHidden = true
-                //얼럿처리
-            })
         
         //        let vc = resultViewController()
         //let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -151,7 +161,7 @@ class ViewController: UIViewController {
     let articlePickerData = LostArticleType.allEnumKoreanArray()
     let placePickerData = LostPlaceType.allEnumKoreanArray()
     
-    let indicator = NVActivityIndicatorView(frame: CGRect(x: 162, y: 100, width: 50, height: 50),
+    let indicator = NVActivityIndicatorView(frame: CGRect(x: UIScreen.main.bounds.width/2 - 20, y: UIScreen.main.bounds.height/2, width: 50, height: 50),
                                             type: .ballBeat,
                                             color: .black,
                                             padding: 0)
@@ -226,13 +236,11 @@ class ViewController: UIViewController {
     
     @objc func onPickCancelArticle() {
         articleTextField.resignFirstResponder()
-//        selectArticle = ""
     }
     
     @objc func onPickDonePlace() {
         placeTextField.text = self.selectPlace.rawValue
         placeTextField.resignFirstResponder()
-//        resultPlace = LostPlaceType.getEnumFromKoreanType(korean: (placeTextField.text)!).rawValue
         resultPlace = LostPlaceType.getKoreanFromLostPlaceType(type: LostPlaceType(rawValue: placeTextField.text!)!)
         print(#function, resultPlace)
         placeTextField.text = resultPlace
@@ -240,7 +248,6 @@ class ViewController: UIViewController {
     
     @objc func onPickCancelPlace() {
         placeTextField.resignFirstResponder()
-//        selectPlace = ""
     }
 }
 
@@ -274,7 +281,6 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         else {
             print("현재 결과값 : ", LostPlaceType.allEnumKoreanArray()[row])
             print(type(of: LostPlaceType(rawValue: placePickerData[row])))
-//            return selectPlace = LostPlaceType(rawValue: placePickerData[row]) ?? LostPlaceType.subway1_4
             return selectPlace = LostPlaceType.getEnumFromKoreanType(korean: self.placePickerData[row])
         }
     }
@@ -282,12 +288,19 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ResultTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ResultTableViewCell", for: indexPath) as! ResultTableViewCell
         
+        cell.getName?.text = lostItems[1]
+
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
 }
