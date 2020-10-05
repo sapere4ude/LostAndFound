@@ -63,7 +63,7 @@ class ViewController: UIViewController {
     var resultArticle = ""
     var resultPlace = ""
     
-    var lostItems: Array<LostArticleResult> = Array()
+    lazy var lostItems: Array<LostArticleResult> = Array()
 //    
     @IBAction func btnAction(_ sender: Any) {
         //indicator show
@@ -89,12 +89,7 @@ class ViewController: UIViewController {
                 print(self.lostItems)
                 print(type(of: self.lostItems))
                 
-//                for i in 0..<self.lostItems.count {
-//                    let result = ResultTableViewCell()
-//                    result.getName?.text = self.lostItems[i].getName
-//                    result.getPlace?.text = self.lostItems[i].getTakePlace
-//                    result.getData?.text = self.lostItems[i].getData
-//                }
+                self.resultView.reloadData() // 데이터가 쌓인 뒤 다시 델리게이트를 돌게하는 코드
                 
                     //모델링 처리 해줘야함
                     //indicator hide mainTread
@@ -128,6 +123,15 @@ class ViewController: UIViewController {
 //        vc.title = "확인 결과"
 //        navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func resetBtn(_ sender: Any) {
+        self.lostItems.removeAll()
+        resultView.reloadData()
+        resultView.isHidden = true
+        articleTextField.text?.removeAll()
+        placeTextField.text?.removeAll()
+    }
+    
     
     func sendRequest(completeHandler:@escaping (JSON) -> (),failureHandler:@escaping (String) -> ()) {
         
@@ -166,6 +170,23 @@ class ViewController: UIViewController {
                                             color: .black,
                                             padding: 0)
     
+    func initRefresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(updateUI(refresh:)), for: .valueChanged)
+        refresh.attributedTitle = NSAttributedString(string: "새로고침")
+        
+        if #available(iOS 10.0, *) {
+            resultView.refreshControl = refresh
+        } else {
+            resultView.addSubview(refresh)
+        }
+    }
+    
+    @objc func updateUI(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        resultView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -177,6 +198,8 @@ class ViewController: UIViewController {
         resultView.delegate = self
         resultView.dataSource = self
         resultView.register(UINib(nibName: "ResultTableViewCell", bundle: nil), forCellReuseIdentifier: "ResultTableViewCell")
+        
+        initRefresh()
     }
     
     func showArticlePickerView() {
@@ -288,13 +311,19 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.lostItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ResultTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ResultTableViewCell", for: indexPath) as! ResultTableViewCell
+        print(#function)
+        cell.getName.sizeToFit()
+        cell.getPlace.sizeToFit()
+        cell.getData.sizeToFit()
         
-        cell.getName?.text = lostItems[1]
+        cell.getName?.text = lostItems[indexPath.row].getName
+        cell.getPlace?.text = lostItems[indexPath.row].getTakePlace
+        cell.getData?.text = lostItems[indexPath.row].getData
 
         
         return cell

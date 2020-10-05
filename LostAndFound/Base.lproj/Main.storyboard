@@ -43,8 +43,18 @@
                                     <constraint firstAttribute="height" constant="476" id="zWI-VH-kO9"/>
                                 </constraints>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2IR-ev-yfV" userLabel="조건 초기화">
+                                <rect key="frame" x="250" y="241" width="69" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="AD1-9O-ZEr"/>
+                                </constraints>
+                                <state key="normal" title="조건 초기화"/>
+                                <connections>
+                                    <action selector="resetBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="r5X-YC-jnU"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVV-PV-fCF">
-                                <rect key="frame" x="165" y="248" width="52" height="30"/>
+                                <rect key="frame" x="67" y="240" width="52" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="zVO-HL-WVM"/>
                                 </constraints>
@@ -58,13 +68,16 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PXo-Of-vk8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="2v4-bn-7a7"/>
+                            <constraint firstItem="2IR-ev-yfV" firstAttribute="top" secondItem="PXo-Of-vk8" secondAttribute="bottom" constant="44" id="EOd-fa-aR3"/>
                             <constraint firstItem="7Bs-Qs-O6c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="28" id="Koc-5J-5lD"/>
                             <constraint firstItem="7Bs-Qs-O6c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="OK7-3f-7WT"/>
-                            <constraint firstItem="lbq-NY-wHH" firstAttribute="top" secondItem="SVV-PV-fCF" secondAttribute="bottom" constant="24" id="TSQ-2p-j40"/>
+                            <constraint firstItem="lbq-NY-wHH" firstAttribute="top" secondItem="SVV-PV-fCF" secondAttribute="bottom" constant="32" id="TSQ-2p-j40"/>
                             <constraint firstItem="SVV-PV-fCF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="W7O-pE-fBL"/>
-                            <constraint firstItem="SVV-PV-fCF" firstAttribute="top" secondItem="PXo-Of-vk8" secondAttribute="bottom" constant="51" id="cZ9-Mn-7Sc"/>
+                            <constraint firstItem="2IR-ev-yfV" firstAttribute="leading" secondItem="SVV-PV-fCF" secondAttribute="trailing" constant="131" id="aYC-hP-RCN"/>
+                            <constraint firstItem="SVV-PV-fCF" firstAttribute="top" secondItem="PXo-Of-vk8" secondAttribute="bottom" constant="43" id="cZ9-Mn-7Sc"/>
                             <constraint firstItem="lbq-NY-wHH" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="fNl-Lw-jpS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SVV-PV-fCF" secondAttribute="trailing" constant="158" id="rqS-X3-g1p"/>
+                            <constraint firstItem="lbq-NY-wHH" firstAttribute="top" secondItem="2IR-ev-yfV" secondAttribute="bottom" constant="31" id="hAn-8F-9Fv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SVV-PV-fCF" secondAttribute="trailing" constant="256" id="rqS-X3-g1p"/>
                             <constraint firstItem="lbq-NY-wHH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="v8B-4S-DFE"/>
                             <constraint firstItem="PXo-Of-vk8" firstAttribute="top" secondItem="7Bs-Qs-O6c" secondAttribute="bottom" constant="57" id="ypD-mh-NZK"/>
                             <constraint firstItem="lbq-NY-wHH" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="z6g-Wy-MFy"/>
