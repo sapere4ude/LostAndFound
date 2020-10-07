@@ -87,6 +87,7 @@
                         <outlet property="articleTextField" destination="7Bs-Qs-O6c" id="7ze-1b-DbK"/>
                         <outlet property="placeTextField" destination="PXo-Of-vk8" id="Hpa-vp-1Wy"/>
                         <outlet property="resultView" destination="lbq-NY-wHH" id="bBK-pg-YEG"/>
+                        <outlet property="searchBtn" destination="SVV-PV-fCF" id="LBN-nA-YMf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -54,6 +54,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var placeTextField: UITextField!
     //@IBOutlet weak var resultTextField: UITextField!
     @IBOutlet weak var resultView: UITableView!
+    @IBOutlet weak var searchBtn: UIButton!
+    
+    
+    // 검색결과가 없을 경우 label 보여주기
+    private let noResultLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = true
+        label.text = "검색 결과가 없습니다!"
+        label.sizeToFit()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        return label
+    }()
     
     
     // string 값을 enum으로 교체하기
@@ -66,6 +79,7 @@ class ViewController: UIViewController {
     lazy var lostItems: Array<LostArticleResult> = Array()
 //    
     @IBAction func btnAction(_ sender: Any) {
+        searchBtn.isEnabled = false
         //indicator show
         self.indicator.isHidden = true
         indicator.startAnimating()
@@ -97,7 +111,12 @@ class ViewController: UIViewController {
                     self.indicator.stopAnimating()
                     self.indicator.isHidden = true
                 }
-                self.resultView.isHidden = false
+                if self.lostItems.isEmpty {
+                    self.resultView.isHidden = true
+                    self.noResultLabel.isHidden = false
+                } else {
+                    self.resultView.isHidden = false
+                }
                 //present
                 
                 }, failureHandler: { err in
@@ -128,6 +147,8 @@ class ViewController: UIViewController {
         self.lostItems.removeAll()
         resultView.reloadData()
         resultView.isHidden = true
+        noResultLabel.isHidden = true
+        searchBtn.isEnabled = true
         articleTextField.text?.removeAll()
         placeTextField.text?.removeAll()
     }
@@ -193,6 +214,8 @@ class ViewController: UIViewController {
         showArticlePickerView()
         showPlacePickerView()
         self.view.addSubview(indicator)
+        self.view.addSubview(noResultLabel)
+        
         resultView.isHidden = true
         
         resultView.delegate = self
@@ -200,6 +223,14 @@ class ViewController: UIViewController {
         resultView.register(UINib(nibName: "ResultTableViewCell", bundle: nil), forCellReuseIdentifier: "ResultTableViewCell")
         
         initRefresh()
+    }
+    
+    override func viewDidLayoutSubviews() {
+
+        noResultLabel.frame = CGRect(x: 120,
+                                     y: 450,
+                                     width: 150,
+                                     height: 50)
     }
     
     func showArticlePickerView() {
