@@ -76,6 +76,14 @@ class ViewController: UIViewController {
     var resultArticle = ""
     var resultPlace = ""
     
+    //MARK:paging
+    let queryOnceCnt:Int = 10
+    var currentPage:Int = 0
+    let callNextPageBeforeOffset:CGFloat = 150
+    var isQuery:Bool = false
+    var reachEnd:Bool = false
+    
+    
     lazy var lostItems: Array<LostArticleResult> = Array()
 //    
     @IBAction func btnAction(_ sender: Any) {
@@ -84,11 +92,7 @@ class ViewController: UIViewController {
         self.indicator.isHidden = true
         indicator.startAnimating()
         DispatchQueue.main.async {
-            for i in 0..<2 {
-                usleep(1 * 1000 * 1000)
-                print("\(i+1)")
-            }
-            let _ = self.sendRequest(completeHandler: { responseJson in
+            let _ = self.sendRequest(page: self.currentPage, completeHandler: { responseJson in
                 print("response:\(responseJson)")
                 var items:Array<LostArticleResult> = Array()
                 for i in 0..<responseJson["SearchLostArticleService"]["row"].count {
@@ -105,8 +109,8 @@ class ViewController: UIViewController {
                 
                 self.resultView.reloadData() // 데이터가 쌓인 뒤 다시 델리게이트를 돌게하는 코드
                 
-                    //모델링 처리 해줘야함
-                    //indicator hide mainTread
+                //모델링 처리 해줘야함
+                //indicator hide mainTread
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
                     self.indicator.isHidden = true
@@ -145,6 +149,8 @@ class ViewController: UIViewController {
     
     @IBAction func resetBtn(_ sender: Any) {
         self.lostItems.removeAll()
+        self.reachEnd = false
+        self.isQuery = false
         resultView.reloadData()
         resultView.isHidden = true
         noResultLabel.isHidden = true
@@ -154,10 +160,16 @@ class ViewController: UIViewController {
     }
     
     
-    func sendRequest(completeHandler:@escaping (JSON) -> (),failureHandler:@escaping (String) -> ()) {
-        
+    func sendRequest(page:Int,completeHandler:@escaping (JSON) -> (),failureHandler:@escaping (String) -> ()) {
+        self.isQuery = true
+        var startIndex:Int = 0
+        var endIndex:Int = self.queryOnceCnt
+        if page != 0 {
+            startIndex = (page * self.queryOnceCnt) + 1
+            endIndex = startIndex + self.queryOnceCnt - 1
+        }
         // endIndex 숫자 변경하기
-        let url = APIDefine.getLostArticleAPIAddress(startIndex: 0, endIndex: 5, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil)
+        let url = APIDefine.getLostArticleAPIAddress(startIndex: startIndex, endIndex: endIndex, type: LostArticleType.getEnumFromKoreanType(korean: (articleTextField?.text)!), place: LostPlaceType.getEnumFromKoreanType(korean: (placeTextField?.text)!), searchTxt: nil)
         
         // 정보를 불러오기만 하는 것이므로 get 방식 사용
         let alamo = AF.request(url, method: .get).validate(statusCode: 200..<300)
@@ -169,11 +181,18 @@ class ViewController: UIViewController {
             // 통신 성공
             case .success(let value):   // 주의할 점 : String 타입으로 들어오는걸 Data 타입으로 바꿔줘야한다.
                 let json = JSON.init(value.data(using: .utf8) as Any)
+                self.currentPage += 1
+                self.isQuery = false
+//                json[""]reachEnd
+                if self.queryOnceCnt > json["SearchLostArticleService"]["row"].count {
+                    self.reachEnd = true
+                }
                 completeHandler(json)
 
             
             // 통신 실패
             case .failure(let error):
+                self.isQuery = false
                 failureHandler(error.localizedDescription)
                 print(error)
             }
@@ -347,7 +366,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ResultTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ResultTableViewCell", for: indexPath) as! ResultTableViewCell
-        print(#function)
+//        print(#function)
         cell.getName.sizeToFit()
         cell.getPlace.sizeToFit()
         cell.getData.sizeToFit()
@@ -363,4 +382,38 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
+    
+    // 스크롤했을때 새로운 페이지 보여주는 방법
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView:\(scrollView.contentOffset.y)")
+        let offset = scrollView.contentOffset
+        let bounds = scrollView.bounds
+        let size = scrollView.contentSize
+        let inset = scrollView.contentInset
+        let y = offset.y + bounds.size.height - inset.bottom
+        let h = size.height
+        
+        if y + self.callNextPageBeforeOffset >= h {
+            if !self.isQuery && !self.reachEnd {
+                sendRequest(page: currentPage, completeHandler: { responseJson in
+                    print("responseJson:\(responseJson)")
+                    var items:Array<LostArticleResult> = Array()
+                    for i in 0..<responseJson["SearchLostArticleService"]["row"].count {
+                        var item:LostArticleResult = LostArticleResult()
+                        item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
+                        item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
+                        item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                        item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
+                        items.append(item)
+                    }
+                    self.lostItems += items
+                    self.resultView.reloadData()
+                }, failureHandler: { err in
+                    print("error:\(err)")
+                })
+            }
+        }
+    }
+    
+    
 }
