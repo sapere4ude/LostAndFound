@@ -145,6 +145,7 @@ class ViewController: UIViewController {
 //        }
 //        vc.title = "확인 결과"
 //        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     @IBAction func resetBtn(_ sender: Any) {
@@ -182,9 +183,9 @@ class ViewController: UIViewController {
             case .success(let value):   // 주의할 점 : String 타입으로 들어오는걸 Data 타입으로 바꿔줘야한다.
                 let json = JSON.init(value.data(using: .utf8) as Any)
                 self.currentPage += 1
-                self.isQuery = false
+                self.isQuery = false    // 통신에 성공한 경우 false 값을 주고 이것은
 //                json[""]reachEnd
-                if self.queryOnceCnt > json["SearchLostArticleService"]["row"].count {
+                if self.queryOnceCnt > json["SearchLostArticleService"]["row"].count {  // 새로운 항목이 10개 이상이 될때만 실행되는 것
                     self.reachEnd = true
                 }
                 completeHandler(json)
@@ -375,9 +376,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.getPlace?.text = lostItems[indexPath.row].getTakePlace
         cell.getData?.text = lostItems[indexPath.row].getData
 
-        
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function)
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        vc.modalTransitionStyle = .coverVertical
+        
+        // DetailViewController의 변수에 넣어준 뒤, 변수가 DetailViewController의 label 값에 전달된다.
+        vc.getArticle = lostItems[indexPath.row].getName
+        vc.getPlace = lostItems[indexPath.row].getTakePlace
+
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
@@ -406,7 +420,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                         items.append(item)
                     }
-                    self.lostItems += items
+                    self.lostItems = items
                     self.resultView.reloadData()
                 }, failureHandler: { err in
                     print("error:\(err)")
