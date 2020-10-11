@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9126BB44E0EA181930C15A65 /* Pods_LostAndFound.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0953B74AD9AAE87C62D75 /* Pods_LostAndFound.framework */; };
 		FA9CC30F252F66400069DB71 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9CC30D252F66400069DB71 /* DetailViewController.swift */; };
+		FA9CC3142531D1A30069DB71 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9CC3132531D1A30069DB71 /* SearchViewController.swift */; };
 		FAF0A3E5251E0ED800B71F86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF0A3E4251E0ED800B71F86 /* AppDelegate.swift */; };
 		FAF0A3E7251E0ED800B71F86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF0A3E6251E0ED800B71F86 /* SceneDelegate.swift */; };
 		FAF0A3E9251E0ED800B71F86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF0A3E8251E0ED800B71F86 /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 		BD25AC683D85EF216F021E31 /* Pods-LostAndFound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LostAndFound.release.xcconfig"; path = "Target Support Files/Pods-LostAndFound/Pods-LostAndFound.release.xcconfig"; sourceTree = "<group>"; };
 		E33A865BCFF931037766FD35 /* Pods-LostAndFound.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LostAndFound.debug.xcconfig"; path = "Target Support Files/Pods-LostAndFound/Pods-LostAndFound.debug.xcconfig"; sourceTree = "<group>"; };
 		FA9CC30D252F66400069DB71 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		FA9CC3132531D1A30069DB71 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FAF0A3E1251E0ED800B71F86 /* LostAndFound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LostAndFound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF0A3E4251E0ED800B71F86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAF0A3E6251E0ED800B71F86 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				FAF0A40525255E9100B71F86 /* ResultTableViewCell.xib */,
 				FAF0A40825256C9500B71F86 /* Model.swift */,
 				FA9CC30D252F66400069DB71 /* DetailViewController.swift */,
+				FA9CC3132531D1A30069DB71 /* SearchViewController.swift */,
 			);
 			path = LostAndFound;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			files = (
 				FAF0A40925256C9500B71F86 /* Model.swift in Sources */,
 				FAF0A3E9251E0ED800B71F86 /* ViewController.swift in Sources */,
+				FA9CC3142531D1A30069DB71 /* SearchViewController.swift in Sources */,
 				FAF0A3E5251E0ED800B71F86 /* AppDelegate.swift in Sources */,
 				FAF0A3E7251E0ED800B71F86 /* SceneDelegate.swift in Sources */,
 				FAF0A3F9251E1FC800B71F86 /* APIDefine.swift in Sources */,

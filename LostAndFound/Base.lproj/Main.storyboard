@@ -50,6 +50,9 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RrF-se-GkH">
                                 <rect key="frame" x="67" y="119" width="240" height="30"/>
                                 <state key="normal" title="키워드로 검색하기"/>
+                                <connections>
+                                    <action selector="searchBtnAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GqZ-97-33i"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2IR-ev-yfV" userLabel="조건 초기화">
                                 <rect key="frame" x="238" y="309" width="69" height="30"/>
@@ -147,7 +150,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAY-cR-SwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2588" y="136.69950738916256"/>
+            <point key="canvasLocation" x="108" y="884"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="232-2W-g8k">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6hS-gn-oon" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController id="0hT-x5-1aU" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6pY-ln-Gfb">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="s4g-BX-bgN" kind="relationship" relationship="rootViewController" id="WN4-XT-K8w"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="831" y="1377"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="op9-ut-PfW">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VTg-kn-jUv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="SearchViewController" id="s4g-BX-bgN" customClass="SearchViewController" customModule="LostAndFound" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KkB-ZV-VGb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cgl-CB-dfS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qN6-Q8-WYA"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1558" y="1377"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IaB-q6-net">

@@ -85,7 +85,13 @@ class ViewController: UIViewController {
     
     
     lazy var lostItems: Array<LostArticleResult> = Array()
-//    
+  
+    @IBAction func searchBtnAction(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+        vc.modalTransitionStyle = .coverVertical
+
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     @IBAction func btnAction(_ sender: Any) {
         searchBtn.isEnabled = false
         //indicator show
