@@ -176,13 +176,43 @@
                     <view key="view" contentMode="scaleToFill" id="KkB-ZV-VGb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="6I3-Yk-qCr">
+                                <rect key="frame" x="0.0" y="88" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="7mB-zB-WPv"/>
+                                    <constraint firstAttribute="width" constant="375" id="ljx-ge-ZRe"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sq5-Tj-7PJ">
+                                <rect key="frame" x="0.0" y="132" width="375" height="646"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="646" id="Dva-9F-eHs"/>
+                                    <constraint firstAttribute="width" constant="375" id="SNB-bW-Gxh"/>
+                                </constraints>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cgl-CB-dfS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6I3-Yk-qCr" firstAttribute="top" secondItem="cgl-CB-dfS" secondAttribute="top" id="AMX-lc-ZJ9"/>
+                            <constraint firstItem="Sq5-Tj-7PJ" firstAttribute="leading" secondItem="cgl-CB-dfS" secondAttribute="leading" id="RUu-DN-8np"/>
+                            <constraint firstItem="Sq5-Tj-7PJ" firstAttribute="trailing" secondItem="cgl-CB-dfS" secondAttribute="trailing" id="VTw-qR-yaz"/>
+                            <constraint firstItem="6I3-Yk-qCr" firstAttribute="leading" secondItem="cgl-CB-dfS" secondAttribute="leading" id="XIk-hK-GwC"/>
+                            <constraint firstItem="Sq5-Tj-7PJ" firstAttribute="bottom" secondItem="cgl-CB-dfS" secondAttribute="bottom" id="gzO-wM-f6b"/>
+                            <constraint firstItem="6I3-Yk-qCr" firstAttribute="trailing" secondItem="cgl-CB-dfS" secondAttribute="trailing" id="s2P-KX-hDp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qN6-Q8-WYA"/>
+                    <connections>
+                        <outlet property="searchBar" destination="6I3-Yk-qCr" id="28a-F2-dZz"/>
+                        <outlet property="tableView" destination="Sq5-Tj-7PJ" id="A7t-Mh-yIp"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1558" y="1377"/>
+            <point key="canvasLocation" x="1557.5999999999999" y="1376.600985221675"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IaB-q6-net">
