@@ -35,6 +35,8 @@ class SearchViewController: UIViewController {
     
     var searchText = ""
     
+    var articleID:String = ""
+    
     lazy var lostItems: Array<LostArticleResult> = Array()
     
     let indicator = NVActivityIndicatorView(frame: CGRect(x: UIScreen.main.bounds.width/2 - 20, y: UIScreen.main.bounds.height/2, width: 50, height: 50),
@@ -78,6 +80,7 @@ class SearchViewController: UIViewController {
         // endIndex 숫자 변경하기
         let url = APIDefine.getLostArticleAPIAddress(startIndex: startIndex, endIndex: endIndex, type: .getEnumFromKoreanType(korean: ""), place: .getEnumFromKoreanType(korean: ""), searchTxt: searchTxt)
         
+        let url2 = APIDefine.getLostArticleImageAPIAddress(startIndex: startIndex, endIndex: endIndex, lostArticleID: articleID)
         // 정보를 불러오기만 하는 것이므로 get 방식 사용
         let alamo = AF.request(url, method: .get).validate(statusCode: 200..<300)
         //결과값으로 문자열을 받을 때 사용
@@ -105,7 +108,6 @@ class SearchViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -117,11 +119,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell: ResultTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ResultTableViewCell", for: indexPath) as! ResultTableViewCell
         cell.getName.sizeToFit()
         cell.getPlace.sizeToFit()
-        cell.getData.sizeToFit()
+        cell.getDate.sizeToFit()
         
         cell.getName?.text = lostItems[indexPath.row].getName
-        cell.getPlace?.text = lostItems[indexPath.row].getTakePlace
-        cell.getData?.text = lostItems[indexPath.row].getData
+        cell.getPlace?.text = "습득장소 : " + lostItems[indexPath.row].getTakePlace
+        cell.getDate?.text = "습득날짜 : " + lostItems[indexPath.row].getDate
         return cell
     }
     
@@ -139,14 +141,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 150
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function)
-//        tableView.isHidden = false
+        noResultLabel.isHidden = true
         guard let text = searchBar.text, !text.replacingOccurrences(of: "", with: "").isEmpty else {
             noResultLabel.isHidden = true
             return
@@ -167,8 +169,9 @@ extension SearchViewController: UISearchBarDelegate {
                     var item:LostArticleResult = LostArticleResult()
                     item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
                     item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
-                    item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                    item.getDate = responseJson["SearchLostArticleService"]["row"][i]["GET_DATE"].stringValue
                     item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
+//                    print("이거 어찌되는지 : \(responseJson["SearchLostArticleImageService"]["row"][i]["IMAGE_URL"].stringValue)")
                     items.append(item)
                 }
                 self.lostItems = items // 지역변수로 값을 넘겨줘서 다른곳에서 사용할 수 있게 해줌
@@ -200,10 +203,6 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        noResultLabel.isHidden = true
-    }
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if searchBar.text == nil {
             noResultLabel.isHidden = true
@@ -229,7 +228,7 @@ extension SearchViewController: UISearchBarDelegate {
                         var item:LostArticleResult = LostArticleResult()
                         item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
                         item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
-                        item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                        item.getDate = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
                         item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                         items.append(item)
                     }
@@ -242,3 +241,5 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
 }
+
+

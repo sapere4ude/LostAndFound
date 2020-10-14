@@ -115,13 +115,22 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYs-hA-2Xk">
-                                <rect key="frame" x="67" y="313" width="240" height="21"/>
+                                <rect key="frame" x="67" y="313" width="240" height="20.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XeH-gF-Oj5">
+                                <rect key="frame" x="67" y="512" width="240" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="5Dw-wx-ima"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faP-iE-GJ7">
-                                <rect key="frame" x="67" y="402.66666666666669" width="240" height="21"/>
+                                <rect key="frame" x="67" y="375.33333333333331" width="240" height="113.66666666666669"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -131,18 +140,23 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="AYs-hA-2Xk" firstAttribute="top" secondItem="Zgx-P7-Tdr" secondAttribute="bottom" constant="72" id="0WF-we-Mwy"/>
+                            <constraint firstItem="XeH-gF-Oj5" firstAttribute="leading" secondItem="faP-iE-GJ7" secondAttribute="leading" id="409-CS-yxI"/>
                             <constraint firstItem="pzf-oL-vjL" firstAttribute="trailing" secondItem="Zgx-P7-Tdr" secondAttribute="trailing" constant="68" id="KcB-jK-Vsg"/>
+                            <constraint firstItem="pzf-oL-vjL" firstAttribute="bottom" secondItem="XeH-gF-Oj5" secondAttribute="bottom" constant="204" id="RfH-sI-yTr"/>
                             <constraint firstItem="AYs-hA-2Xk" firstAttribute="trailing" secondItem="Zgx-P7-Tdr" secondAttribute="trailing" id="Rs6-gj-0h6"/>
                             <constraint firstItem="Zgx-P7-Tdr" firstAttribute="leading" secondItem="pzf-oL-vjL" secondAttribute="leading" constant="67" id="e51-x3-lxQ"/>
                             <constraint firstItem="AYs-hA-2Xk" firstAttribute="trailing" secondItem="faP-iE-GJ7" secondAttribute="trailing" id="f6p-hi-7Th"/>
                             <constraint firstItem="Zgx-P7-Tdr" firstAttribute="top" secondItem="pzf-oL-vjL" secondAttribute="top" constant="69" id="ixm-7b-0ff"/>
                             <constraint firstItem="AYs-hA-2Xk" firstAttribute="leading" secondItem="faP-iE-GJ7" secondAttribute="leading" id="p3y-iU-z8Q"/>
+                            <constraint firstItem="XeH-gF-Oj5" firstAttribute="top" secondItem="faP-iE-GJ7" secondAttribute="bottom" constant="23" id="q5o-iW-7SL"/>
                             <constraint firstItem="AYs-hA-2Xk" firstAttribute="leading" secondItem="Zgx-P7-Tdr" secondAttribute="leading" id="snO-s3-TAP"/>
-                            <constraint firstItem="faP-iE-GJ7" firstAttribute="top" secondItem="AYs-hA-2Xk" secondAttribute="bottom" constant="68.666666666666686" id="ukQ-V4-T8B"/>
+                            <constraint firstItem="faP-iE-GJ7" firstAttribute="top" secondItem="AYs-hA-2Xk" secondAttribute="bottom" constant="42" id="ukQ-V4-T8B"/>
+                            <constraint firstItem="XeH-gF-Oj5" firstAttribute="trailing" secondItem="faP-iE-GJ7" secondAttribute="trailing" id="zep-8i-M9l"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detailGetArticle" destination="AYs-hA-2Xk" id="mC5-ei-2sC"/>
+                        <outlet property="detailGetDate" destination="XeH-gF-Oj5" id="tO6-ta-AgB"/>
                         <outlet property="detailGetPlace" destination="faP-iE-GJ7" id="iUx-mJ-qaV"/>
                         <outlet property="detailImageView" destination="Zgx-P7-Tdr" id="ZZn-pd-8Ha"/>
                         <outlet property="detailView" destination="xAY-Yo-nQd" id="rTf-Ho-BNs"/>
@@ -150,12 +164,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAY-cR-SwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="108" y="884"/>
+            <point key="canvasLocation" x="108" y="883.74384236453204"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="232-2W-g8k">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6hS-gn-oon" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="0hT-x5-1aU" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6pY-ln-Gfb">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -165,13 +178,13 @@
                         <segue destination="s4g-BX-bgN" kind="relationship" relationship="rootViewController" id="WN4-XT-K8w"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6hS-gn-oon" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="831" y="1377"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="op9-ut-PfW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VTg-kn-jUv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SearchViewController" id="s4g-BX-bgN" customClass="SearchViewController" customModule="LostAndFound" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KkB-ZV-VGb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -211,6 +224,7 @@
                         <outlet property="tableView" destination="Sq5-Tj-7PJ" id="A7t-Mh-yIp"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VTg-kn-jUv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557.5999999999999" y="1376.600985221675"/>
         </scene>

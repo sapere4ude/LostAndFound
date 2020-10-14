@@ -91,6 +91,9 @@ class ViewController: UIViewController {
         vc.modalTransitionStyle = .coverVertical
 
         self.navigationController?.pushViewController(vc, animated: true)
+        
+        articleTextField.text?.removeAll()
+        placeTextField.text?.removeAll()
     }
     @IBAction func btnAction(_ sender: Any) {
         searchBtn.isEnabled = false
@@ -105,7 +108,7 @@ class ViewController: UIViewController {
                     var item:LostArticleResult = LostArticleResult()
                     item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
                     item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
-                    item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                    item.getDate = responseJson["SearchLostArticleService"]["row"][i]["GET_DATE"].stringValue
                     item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                     items.append(item)
                 }
@@ -249,6 +252,8 @@ class ViewController: UIViewController {
         resultView.register(UINib(nibName: "ResultTableViewCell", bundle: nil), forCellReuseIdentifier: "ResultTableViewCell")
         
         initRefresh()
+        
+        print(APIDefine.getLostArticleImageAPIAddress(startIndex: 0, endIndex: 5, lostArticleID: ""))
     }
     
     override func viewDidLayoutSubviews() {
@@ -376,11 +381,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        print(#function)
         cell.getName.sizeToFit()
         cell.getPlace.sizeToFit()
-        cell.getData.sizeToFit()
+        cell.getDate.sizeToFit()
         
         cell.getName?.text = lostItems[indexPath.row].getName
-        cell.getPlace?.text = lostItems[indexPath.row].getTakePlace
-        cell.getData?.text = lostItems[indexPath.row].getData
+        cell.getPlace?.text = "습득장소 : " + lostItems[indexPath.row].getTakePlace
+        cell.getDate?.text = "습득날짜 : " + lostItems[indexPath.row].getDate
 
         return cell
     }
@@ -394,13 +399,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // DetailViewController의 변수에 넣어준 뒤, 변수가 DetailViewController의 label 값에 전달된다.
         vc.getArticle = lostItems[indexPath.row].getName
         vc.getPlace = lostItems[indexPath.row].getTakePlace
+        vc.getDate = lostItems[indexPath.row].getDate
 
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 150
     }
     
     // 스크롤했을때 새로운 페이지 보여주는 방법
@@ -422,7 +428,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         var item:LostArticleResult = LostArticleResult()
                         item.id = responseJson["SearchLostArticleService"]["row"][i]["ID"].intValue
                         item.getName = responseJson["SearchLostArticleService"]["row"][i]["GET_NAME"].stringValue
-                        item.getData = responseJson["SearchLostArticleService"]["row"][i]["GET_DATA"].stringValue
+                        item.getDate = responseJson["SearchLostArticleService"]["row"][i]["GET_DATE"].stringValue
                         item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                         items.append(item)
                     }

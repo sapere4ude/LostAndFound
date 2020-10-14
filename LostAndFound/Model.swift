@@ -11,7 +11,7 @@ import Foundation
 struct LostArticleResult {
     var id: Int = -1
     var getTakePlace: String = ""
-    var getData: String = ""
+    var getDate: String = ""
     var getName: String = ""
     var getLocation: String = ""
 }

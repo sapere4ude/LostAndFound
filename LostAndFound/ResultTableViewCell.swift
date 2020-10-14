@@ -10,13 +10,12 @@ import UIKit
 
 class ResultTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var place: UILabel!
-    @IBOutlet weak var location: UILabel!
+//    @IBOutlet weak var name: UILabel!
+//    @IBOutlet weak var place: UILabel!
+//    @IBOutlet weak var location: UILabel!
     @IBOutlet weak var getName: UILabel!
     @IBOutlet weak var getPlace: UILabel!
-    @IBOutlet weak var getData: UILabel!
-    
+    @IBOutlet weak var getDate: UILabel!
     
     
     override func awakeFromNib() {
