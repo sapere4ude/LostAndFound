@@ -432,7 +432,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                         items.append(item)
                     }
-                    self.lostItems = items
+                    self.lostItems += items // 배열에 지속적으로 추가되는걸 의미
                     self.resultView.reloadData()
                 }, failureHandler: { err in
                     print("error:\(err)")

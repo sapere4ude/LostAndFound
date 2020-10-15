@@ -79,8 +79,7 @@ class SearchViewController: UIViewController {
         }
         // endIndex 숫자 변경하기
         let url = APIDefine.getLostArticleAPIAddress(startIndex: startIndex, endIndex: endIndex, type: .getEnumFromKoreanType(korean: ""), place: .getEnumFromKoreanType(korean: ""), searchTxt: searchTxt)
-        
-        let url2 = APIDefine.getLostArticleImageAPIAddress(startIndex: startIndex, endIndex: endIndex, lostArticleID: articleID)
+
         // 정보를 불러오기만 하는 것이므로 get 방식 사용
         let alamo = AF.request(url, method: .get).validate(statusCode: 200..<300)
         //결과값으로 문자열을 받을 때 사용
@@ -232,7 +231,7 @@ extension SearchViewController: UISearchBarDelegate {
                         item.getTakePlace = responseJson["SearchLostArticleService"]["row"][i]["TAKE_PLACE"].stringValue
                         items.append(item)
                     }
-                    self.lostItems = items
+                    self.lostItems += items // 배열에 지속적으로 추가되는걸 의미
                     self.tableView.reloadData()
                 }, failureHandler: { err in
                     print("error:\(err)")

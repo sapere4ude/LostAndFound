@@ -31,11 +31,11 @@ class DetailViewController: UIViewController {
     func UIinit() {
         detailView.backgroundColor = .systemBackground
         detailImageView.image = UIImage(named: "lostItem")
-        detailGetArticle.textAlignment = .center
+        detailGetArticle.sizeToFit()
         detailGetArticle.text = getArticle
-        detailGetPlace.textAlignment = .center
+        detailGetPlace.sizeToFit()
         detailGetPlace.text = "습득장소 : " + getPlace
-        detailGetDate.textAlignment = .center
+        detailGetDate.sizeToFit()
         detailGetDate.text = "습득날짜 : " + getDate
     }
 
