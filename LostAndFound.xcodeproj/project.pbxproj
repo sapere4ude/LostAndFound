@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9126BB44E0EA181930C15A65 /* Pods_LostAndFound.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0953B74AD9AAE87C62D75 /* Pods_LostAndFound.framework */; };
+		FA8A89322539A7D500676136 /* SeoulNamsanL.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA8A89312539A7AE00676136 /* SeoulNamsanL.otf */; };
 		FA9CC30F252F66400069DB71 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9CC30D252F66400069DB71 /* DetailViewController.swift */; };
 		FA9CC3142531D1A30069DB71 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9CC3132531D1A30069DB71 /* SearchViewController.swift */; };
 		FAF0A3E5251E0ED800B71F86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF0A3E4251E0ED800B71F86 /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 		82A0953B74AD9AAE87C62D75 /* Pods_LostAndFound.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LostAndFound.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD25AC683D85EF216F021E31 /* Pods-LostAndFound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LostAndFound.release.xcconfig"; path = "Target Support Files/Pods-LostAndFound/Pods-LostAndFound.release.xcconfig"; sourceTree = "<group>"; };
 		E33A865BCFF931037766FD35 /* Pods-LostAndFound.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LostAndFound.debug.xcconfig"; path = "Target Support Files/Pods-LostAndFound/Pods-LostAndFound.debug.xcconfig"; sourceTree = "<group>"; };
+		FA8A89312539A7AE00676136 /* SeoulNamsanL.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SeoulNamsanL.otf; path = ../../../../../../../Library/Fonts/SeoulNamsanL.otf; sourceTree = "<group>"; };
 		FA9CC30D252F66400069DB71 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FA9CC3132531D1A30069DB71 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FAF0A3E1251E0ED800B71F86 /* LostAndFound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LostAndFound.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +99,7 @@
 				FAF0A3E8251E0ED800B71F86 /* ViewController.swift */,
 				FAF0A3F8251E1FC800B71F86 /* APIDefine.swift */,
 				FAF0A3EA251E0ED800B71F86 /* Main.storyboard */,
+				FA8A89312539A7AE00676136 /* SeoulNamsanL.otf */,
 				FAF0A3ED251E0EDA00B71F86 /* Assets.xcassets */,
 				FAF0A3EF251E0EDA00B71F86 /* LaunchScreen.storyboard */,
 				FAF0A3F2251E0EDA00B71F86 /* Info.plist */,
@@ -138,7 +141,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = sapere4ude;
 				TargetAttributes = {
 					FAF0A3E0251E0ED800B71F86 = {
@@ -173,6 +176,7 @@
 				FAF0A3EE251E0EDA00B71F86 /* Assets.xcassets in Resources */,
 				FAF0A40725255E9100B71F86 /* ResultTableViewCell.xib in Resources */,
 				FAF0A3EC251E0ED800B71F86 /* Main.storyboard in Resources */,
+				FA8A89322539A7D500676136 /* SeoulNamsanL.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +288,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -308,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -344,6 +349,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -362,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

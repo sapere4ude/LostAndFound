@@ -135,6 +135,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         // DetailViewController의 변수에 넣어준 뒤, 변수가 DetailViewController의 label 값에 전달된다.
         vc.getArticle = lostItems[indexPath.row].getName
         vc.getPlace = lostItems[indexPath.row].getTakePlace
+        vc.getDate = lostItems[indexPath.row].getDate
 
         self.navigationController?.pushViewController(vc, animated: true)
     }

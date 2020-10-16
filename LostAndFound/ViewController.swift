@@ -296,7 +296,8 @@ class ViewController: UIViewController {
         pickerToolbar.barStyle = .default
         pickerToolbar.isTranslucent = true
         pickerToolbar.backgroundColor = .lightGray
-        pickerToolbar.sizeToFit()
+        pickerToolbar.frame = CGRect(x: 0, y: 0, width: 0, height: 35)
+//        pickerToolbar.sizeToFit()
         
         let btnDone = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(onPickDonePlace))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
